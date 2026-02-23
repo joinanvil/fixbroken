@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 
 const CALENDLY_URL = 'https://calendly.com/daniel-joinanvil/30min'
+const SHEET_URL = '' // Paste your Google Apps Script web app URL here
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -15,9 +16,14 @@ function App() {
   }
 
   const handleBook = () => {
-    const saved = JSON.parse(localStorage.getItem('anvil_leads') || '[]')
-    saved.push({ email, ts: new Date().toISOString() })
-    localStorage.setItem('anvil_leads', JSON.stringify(saved))
+    if (SHEET_URL) {
+      fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, ts: new Date().toISOString() }),
+      }).catch(() => {})
+    }
 
     window.open(`${CALENDLY_URL}?email=${encodeURIComponent(email)}`, '_blank')
     setModalOpen(false)
