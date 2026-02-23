@@ -168,10 +168,24 @@ function App() {
         </motion.div>
 
         <motion.div
+          className="yc-badge"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <span className="yc-text">Backed by</span>
+          <svg className="yc-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="4" fill="#F26522"/>
+            <path d="M17.05 18.52V23.5H14.95V18.52L10 9.5H12.35L16 16.14L19.62 9.5H22L17.05 18.52Z" fill="white"/>
+          </svg>
+          <span className="yc-text">Combinator</span>
+        </motion.div>
+
+        <motion.div
           className="proof"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.45 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         >
           <span className="proof-label">Trusted by teams shipping with AI</span>
           <div className="proof-stats">
