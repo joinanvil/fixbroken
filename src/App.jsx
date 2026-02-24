@@ -351,7 +351,7 @@ function App() {
       <LogoTicker />
 
       {/* Modal */}
-      <AnimatePresence initial={false}>
+      <AnimatePresence>
         {modalOpen && (
           <motion.div
             className="modal-overlay"
