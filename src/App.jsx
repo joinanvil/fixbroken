@@ -360,7 +360,7 @@ function App() {
                     <li><span className="perk-check">✓</span> 24/7 uptime monitoring</li>
                     <li><span className="perk-check">✓</span> Bugs fixed fast, usually within hours</li>
                   </ul>
-                  <p className="modal-ad-cta-label">Drop your email &mdash; we&rsquo;ll reach out same day.</p>
+                  <p className="modal-ad-cta-label">Let&rsquo;s start</p>
                 </>
               ) : (
                 <>
