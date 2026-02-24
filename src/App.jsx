@@ -329,7 +329,7 @@ function App() {
           <motion.div
             className="modal-overlay"
             onClick={() => setModalOpen(false)}
-            initial={{ opacity: 0 }}
+            initial={fromAd ? { opacity: 1 } : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
@@ -337,7 +337,7 @@ function App() {
             <motion.div
               className={`modal${fromAd ? ' modal-ad' : ''}`}
               onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              initial={fromAd ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
