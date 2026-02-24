@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import './App.css'
 
@@ -98,10 +98,20 @@ function LogoTicker() {
   )
 }
 
+const HEADLINE_PHRASES = ["We'll fix it.", 'We will deploy it.', 'We will maintain it.']
+
 function App() {
   const [modalOpen, setModalOpen] = useState(false)
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(false)
+  const [phraseIndex, setPhraseIndex] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPhraseIndex(i => (i + 1) % HEADLINE_PHRASES.length)
+    }, 2800)
+    return () => clearInterval(id)
+  }, [])
 
   const handleEmailChange = (e) => {
     const val = e.target.value
@@ -181,7 +191,20 @@ function App() {
         >
           Your AI app is broken.
           <br />
-          <span className="headline-accent">We&rsquo;ll fix it.</span>
+          <span className="headline-accent-wrap">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={phraseIndex}
+                className="headline-accent"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+              >
+                {HEADLINE_PHRASES[phraseIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </span>
         </motion.h1>
 
         <motion.p
