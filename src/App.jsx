@@ -214,7 +214,7 @@ function App() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          We rescue, repair, and maintain apps built by AI tools.
+          We rescue, repair, deploy, and maintain apps built by AI tools.
           Ship with confidence&mdash;we handle the mess.
         </motion.p>
 
