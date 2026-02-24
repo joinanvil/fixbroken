@@ -19,6 +19,14 @@ const ORB_CONFIG = [
   { x: '50%', y: '80%', size: 300, color: 'rgba(99,140,255,0.04)', duration: 20 },
 ]
 
+const PARTICLES = Array.from({ length: 20 }, () => ({
+  left: `${Math.random() * 100}%`,
+  top: `${Math.random() * 100}%`,
+  yDelta: -30 - Math.random() * 40,
+  duration: 4 + Math.random() * 6,
+  delay: Math.random() * 5,
+}))
+
 function FloatingOrbs() {
   return (
     <div className="orbs">
@@ -52,24 +60,13 @@ function FloatingOrbs() {
 function Particles() {
   return (
     <div className="particles">
-      {Array.from({ length: 20 }, (_, i) => (
+      {PARTICLES.map((p, i) => (
         <motion.div
           key={i}
           className="particle"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30 - Math.random() * 40, 0],
-            opacity: [0, 0.6, 0],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 6,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: 'easeInOut',
-          }}
+          style={{ left: p.left, top: p.top }}
+          animate={{ y: [0, p.yDelta, 0], opacity: [0, 0.6, 0] }}
+          transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
         />
       ))}
     </div>
@@ -163,7 +160,9 @@ function Features() {
 const HEADLINE_PHRASES = ["We'll fix it.", 'We will deploy it.', 'We will maintain it.']
 
 function App() {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(
+    () => new URLSearchParams(window.location.search).get('book') === 'true'
+  )
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(false)
   const [phraseIndex, setPhraseIndex] = useState(0)
@@ -173,12 +172,6 @@ function App() {
       setPhraseIndex(i => (i + 1) % HEADLINE_PHRASES.length)
     }, 2800)
     return () => clearInterval(id)
-  }, [])
-
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('book') === 'true') {
-      setModalOpen(true)
-    }
   }, [])
 
   const handleEmailChange = (e) => {
