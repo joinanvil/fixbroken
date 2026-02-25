@@ -86,6 +86,17 @@ function Particles() {
 function TechTicker() {
   const doubled = [...TECH_LOGOS, ...TECH_LOGOS]
   return (
+    <div className="tech-ticker-outer">
+      <motion.div
+        className="tech-ticker-header"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.55 }}
+      >
+        <h2 className="tech-ticker-title">We handle the complexity.<br />You stay focused on building.</h2>
+        <p className="tech-ticker-desc">Whatever stack your AI tool generated, we know how to deploy it, wire it up, and keep it running — no DevOps degree required.</p>
+      </motion.div>
     <div className="tech-ticker-section">
       <span className="logo-ticker-label">Works with<br />your stack</span>
       <div className="logo-ticker-wrapper">
@@ -101,6 +112,7 @@ function TechTicker() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   )
 }

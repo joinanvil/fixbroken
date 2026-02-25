@@ -545,6 +545,34 @@
 }
 
 /* ── Tech stack ticker (inline) ── */
+.tech-ticker-outer {
+  position: relative;
+  z-index: 1;
+}
+
+.tech-ticker-header {
+  text-align: center;
+  padding: 80px 24px 48px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.tech-ticker-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+
+.tech-ticker-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  text-wrap: balance;
+}
+
 .tech-ticker-section {
   position: relative;
   z-index: 1;
