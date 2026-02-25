@@ -132,7 +132,6 @@ function useTheme() {
   useEffect(() => {
     const setTheme = (t) => document.documentElement.setAttribute('data-theme', t)
     const onActivity = () => {
-      setTheme('dark')
       clearTimeout(timer.current)
       timer.current = setTimeout(() => setTheme('light'), 1000)
     }
@@ -409,9 +408,9 @@ function App() {
         </motion.div>
       </main>
 
-      <Features />
-
       <TechStack />
+
+      <Features />
 
       <LogoTicker />
 
