@@ -84,6 +84,124 @@ function Particles() {
   )
 }
 
+function PipelineNode({ iconBg, icon, label, badge, badgeStyle, menu, sm }) {
+  return (
+    <div className={`pn${sm ? ' pn-sm' : ''}`}>
+      <span className="pn-icon" style={{ background: iconBg }}>{icon}</span>
+      <span className="pn-label">{label}</span>
+      {badge && <span className="pn-badge" style={badgeStyle}>{badge}</span>}
+      {menu && <span className="pn-menu">···</span>}
+    </div>
+  )
+}
+
+function AppMockup() {
+  return (
+    <section className="mockup-section">
+      <motion.div
+        className="mockup-eyebrow"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="features-eyebrow">Live in minutes</span>
+        <h2 className="features-title">From your repo<br />to the internet</h2>
+        <p className="tech-stack-desc">Share your GitHub link. We handle builds, deployments, monitoring, and fixes — so you can keep building.</p>
+      </motion.div>
+
+      <motion.div
+        className="mockup-frame"
+        initial={{ opacity: 0, y: 48 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.7, delay: 0.15 }}
+      >
+        {/* Window chrome */}
+        <div className="mockup-titlebar">
+          <div className="mockup-wdots">
+            <span className="mockup-wdot wd-red" />
+            <span className="mockup-wdot wd-yellow" />
+            <span className="mockup-wdot wd-green" />
+          </div>
+          <div className="mockup-breadcrumb">
+            <svg width="14" height="9" viewBox="0 0 34 22" fill="none">
+              <ellipse cx="17" cy="15" rx="14" ry="7" fill="#6c63ff"/>
+              <circle cx="10" cy="12" r="7" fill="#6c63ff"/>
+              <circle cx="23" cy="9" r="9" fill="#6c63ff"/>
+            </svg>
+            <span>my-ai-app</span>
+            <span className="mockup-sep">›</span>
+            <span>Deployments</span>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="mockup-body">
+          {/* Pipeline canvas */}
+          <div className="mockup-canvas">
+            <PipelineNode icon="⚡" iconBg="#1f2937" label="GitHub Webhook · Push to main" menu />
+            <div className="pn-vline" />
+            <PipelineNode icon="📦" iconBg="#ea580c" label="Install · npm install" menu />
+            <div className="pn-vline" />
+            <PipelineNode
+              icon="🔨" iconBg="#d97706" label="Build · npm run build"
+              badge="● Building"
+              badgeStyle={{ color: '#92400e', background: 'rgba(217,119,6,0.12)' }}
+            />
+            <div className="pn-vline" />
+            <PipelineNode icon="☁" iconBg="#6c63ff" label="Deploy to Cloud" menu />
+            <div className="pn-vline" />
+            <div className="pn-branches">
+              <PipelineNode icon="✓" iconBg="#16a34a" label="Health Check" sm />
+              <PipelineNode icon="🔒" iconBg="#2563eb" label="SSL Certificate" sm />
+              <PipelineNode icon="🌐" iconBg="#0891b2" label="DNS Config" sm />
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="mockup-sidebar">
+            <div className="mockup-sb-head">
+              <div className="mockup-sb-title">
+                <svg width="14" height="9" viewBox="0 0 34 22" fill="none">
+                  <ellipse cx="17" cy="15" rx="14" ry="7" fill="#6c63ff"/>
+                  <circle cx="10" cy="12" r="7" fill="#6c63ff"/>
+                  <circle cx="23" cy="9" r="9" fill="#6c63ff"/>
+                </svg>
+                Deployment
+              </div>
+              <button className="mockup-close">✕</button>
+            </div>
+            <div className="mockup-sb-tabs">
+              <span className="mockup-tab mockup-tab--on">Overview</span>
+              <span className="mockup-tab">Logs</span>
+              <span className="mockup-tab">Settings</span>
+            </div>
+            <div className="mockup-sb-body">
+              <div className="mockup-field">
+                <div className="mockup-field-label">Environment</div>
+                <div className="mockup-field-box">Production ▾</div>
+              </div>
+              <div className="mockup-field">
+                <div className="mockup-field-label">Domain</div>
+                <div className="mockup-field-box">myapp.joinanvil.ai</div>
+              </div>
+              <div className="mockup-live-card">
+                <span className="mockup-live-dot" />
+                <div>
+                  <div className="mockup-live-title">Live</div>
+                  <div className="mockup-live-sub">Deployed 2 min ago</div>
+                </div>
+              </div>
+              <div className="mockup-sb-cta">View Live App →</div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  )
+}
+
 function TechStack() {
   return (
     <section className="tech-stack">
@@ -419,6 +537,8 @@ function App() {
       </main>
 
       <TechStack />
+
+      <AppMockup />
 
       <Features />
 
