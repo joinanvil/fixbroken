@@ -474,6 +474,101 @@ function Features() {
   )
 }
 
+const PLANS = [
+  {
+    name: 'Starter',
+    price: 49,
+    desc: 'One app, live and looked after.',
+    features: [
+      '1 cloud server',
+      '1 database',
+      'Automatic deployments',
+      'Uptime monitoring',
+      'SSL + custom domain',
+    ],
+    cta: 'Get started',
+  },
+  {
+    name: 'Pro',
+    price: 149,
+    desc: 'For apps with real users that need active care.',
+    popular: true,
+    features: [
+      '3 cloud servers',
+      '2 databases',
+      '24/7 monitoring & alerts',
+      'Bug fixes included',
+      'Automatic deployments',
+      'Priority support',
+    ],
+    cta: 'Get started',
+  },
+  {
+    name: 'Scale',
+    price: 399,
+    desc: 'Multiple apps, full coverage, no limits.',
+    features: [
+      'Unlimited servers',
+      'Unlimited databases',
+      'Everything in Pro',
+      'Dedicated engineer',
+      '99.9% uptime SLA',
+    ],
+    cta: 'Talk to us',
+  },
+]
+
+function Pricing({ onCta }) {
+  return (
+    <section className="pricing">
+      <motion.div
+        className="pricing-header"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="features-eyebrow">Pricing</span>
+        <h2 className="features-title">Simple, predictable pricing</h2>
+        <p className="tech-stack-desc">No hidden fees. No infrastructure surprises. One flat monthly rate for a fully managed app.</p>
+      </motion.div>
+
+      <div className="pricing-grid">
+        {PLANS.map((plan, i) => (
+          <motion.div
+            key={plan.name}
+            className={`pricing-card${plan.popular ? ' pricing-card--pop' : ''}`}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+          >
+            {plan.popular && <div className="pricing-badge">Most popular</div>}
+            <div className="pricing-name">{plan.name}</div>
+            <div className="pricing-price-row">
+              <span className="pricing-dollar">$</span>
+              <span className="pricing-amount">{plan.price}</span>
+              <span className="pricing-per">/mo</span>
+            </div>
+            <p className="pricing-desc">{plan.desc}</p>
+            <ul className="pricing-features">
+              {plan.features.map(f => (
+                <li key={f}><span className="pricing-check">✓</span>{f}</li>
+              ))}
+            </ul>
+            <button
+              className={`pricing-cta${plan.popular ? ' pricing-cta--pop' : ''}`}
+              onClick={onCta}
+            >
+              {plan.cta}
+            </button>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 const HEADLINE_VARIANT = Math.random() < 0.5 ? 'a' : 'b'
 const HEADLINES = {
   a: 'Your AI app, live on the internet.',
@@ -655,6 +750,8 @@ function App() {
       <AppMockup />
       <SectionDivider />
       <Features />
+      <SectionDivider />
+      <Pricing onCta={() => { track('cta_click', { button: 'pricing' }); setModalOpen(true) }} />
 
       <LogoTicker />
 
