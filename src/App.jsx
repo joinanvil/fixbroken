@@ -112,18 +112,118 @@ function SectionDivider() {
   )
 }
 
-function PipelineNode({ iconBg, icon, label, badge, badgeStyle, menu, sm }) {
+function DeployPanel() {
   return (
-    <div className={`pn${sm ? ' pn-sm' : ''}`}>
-      <span className="pn-icon" style={{ background: iconBg }}>{icon}</span>
-      <span className="pn-label">{label}</span>
-      {badge && <span className="pn-badge" style={badgeStyle}>{badge}</span>}
-      {menu && <span className="pn-menu">···</span>}
+    <div className="mp-panel">
+      <div className="mp-agent-row">
+        <div className="mp-avatar">
+          <CloudLogo width={18} />
+        </div>
+        <div>
+          <div className="mp-agent-name">Anvil Deploy Agent</div>
+          <div className="mp-agent-sub">Reading your project…</div>
+        </div>
+        <span className="mp-pulse" />
+      </div>
+
+      <div className="mp-card mp-repo">
+        <span className="mp-repo-icon">⚡</span>
+        <div>
+          <div className="mp-repo-name">github.com/acme/my-ai-app</div>
+          <div className="mp-repo-branch">main · just now</div>
+        </div>
+      </div>
+
+      <div className="mp-steps">
+        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Your app uses React + a Node.js backend</div>
+        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Found a database — Supabase</div>
+        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Setting up your server in the cloud</div>
+        <div className="mp-step mp-active"><span className="mp-dot mp-dot--active">●</span>Connecting your custom domain…</div>
+        <div className="mp-step mp-muted"><span className="mp-dot mp-dot--muted">○</span>Turning on SSL so your users are secure</div>
+      </div>
+
+      <div className="mp-progress">
+        <div className="mp-progress-fill" style={{ width: '72%' }} />
+      </div>
+      <div className="mp-progress-label">Almost there — your app is going live</div>
     </div>
   )
 }
 
+function MonitorPanel() {
+  return (
+    <div className="mp-panel">
+      <div className="mp-monitor-top">
+        <span className="mp-monitor-title">Live Activity</span>
+        <span className="mp-alert-pill">● 2 issues spotted</span>
+      </div>
+
+      <div className="mp-card mp-logs">
+        <div className="mp-log"><span className="mp-log-time">2:14 PM</span><span>User signed up successfully · fast ✓</span></div>
+        <div className="mp-log mp-log-warn"><span className="mp-log-time">2:15 PM</span><span>⚠ Page loaded slowly for some users (2.3s)</span></div>
+        <div className="mp-log mp-log-err"><span className="mp-log-time">2:15 PM</span><span>✕ Something broke connecting to the database — happened 3 times</span></div>
+        <div className="mp-log mp-log-err"><span className="mp-log-time">2:16 PM</span><span>✕ 8 people couldn't load their profile</span></div>
+      </div>
+
+      <div className="mp-card mp-ticket">
+        <div className="mp-ticket-eyebrow">📋 Ticket created for your team</div>
+        <div className="mp-ticket-title">Users can't log in — database is struggling</div>
+        <div className="mp-ticket-meta">
+          <span className="mp-severity">High priority</span>
+          <span>· Assigned to Anvil</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function FixPanel() {
+  return (
+    <div className="mp-panel">
+      <div className="mp-agent-row">
+        <div className="mp-avatar">
+          <CloudLogo width={18} />
+        </div>
+        <div>
+          <div className="mp-agent-name">Anvil Fix Agent</div>
+          <div className="mp-agent-sub">Working on: users can't log in</div>
+        </div>
+      </div>
+
+      <div className="mp-steps">
+        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Read through the error logs</div>
+        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Found the problem — too many users connecting at once</div>
+        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Wrote a fix and tested it</div>
+        <div className="mp-step mp-active"><span className="mp-dot mp-dot--active">●</span>Opening a pull request for you to review…</div>
+      </div>
+
+      <div className="mp-card mp-pr">
+        <div className="mp-pr-top">
+          <span className="mp-pr-num">#47</span>
+          <span className="mp-pr-title">Fix: more people can use your app at the same time</span>
+        </div>
+        <div className="mp-pr-meta">
+          <span className="mp-diff-add">+3 lines</span>
+          <span className="mp-diff-del">−1 line</span>
+          <span className="mp-pr-branch">main ← fix/db-pool</span>
+        </div>
+        <div className="mp-pr-cta">Review on GitHub →</div>
+      </div>
+    </div>
+  )
+}
+
+const DEMO_TABS = [
+  { label: 'Ship to Cloud', icon: '☁' },
+  { label: 'Monitor',       icon: '📊' },
+  { label: 'Fix Bugs',      icon: '🔧' },
+]
+const DEMO_PANELS = [DeployPanel, MonitorPanel, FixPanel]
+
 function AppMockup() {
+  const [tab, setTab] = useState(0)
+  const Panel = DEMO_PANELS[tab]
+
   return (
     <section className="mockup-section">
       <motion.div
@@ -133,9 +233,9 @@ function AppMockup() {
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.6 }}
       >
-        <span className="features-eyebrow">Live in minutes</span>
-        <h2 className="features-title">From your repo<br />to the internet</h2>
-        <p className="tech-stack-desc">Share your GitHub link. We handle builds, deployments, monitoring, and fixes — so you can keep building.</p>
+        <span className="features-eyebrow">How it works</span>
+        <h2 className="features-title">Your app, handled<br />end to end</h2>
+        <p className="tech-stack-desc">Share your GitHub link. We take it from there — no setup, no DevOps, no surprises.</p>
       </motion.div>
 
       <motion.div
@@ -145,7 +245,6 @@ function AppMockup() {
         viewport={{ once: true, margin: '-40px' }}
         transition={{ duration: 0.7, delay: 0.15 }}
       >
-        {/* Window chrome */}
         <div className="mockup-titlebar">
           <div className="mockup-wdots">
             <span className="mockup-wdot wd-red" />
@@ -156,67 +255,33 @@ function AppMockup() {
             <CloudLogo width={14} />
             <span>my-ai-app</span>
             <span className="mockup-sep">›</span>
-            <span>Deployments</span>
+            <span>Dashboard</span>
           </div>
         </div>
 
-        {/* Body */}
-        <div className="mockup-body">
-          {/* Pipeline canvas */}
-          <div className="mockup-canvas">
-            <PipelineNode icon="⚡" iconBg="#1f2937" label="GitHub Webhook · Push to main" menu />
-            <div className="pn-vline" />
-            <PipelineNode icon="📦" iconBg="#ea580c" label="Install · npm install" menu />
-            <div className="pn-vline" />
-            <PipelineNode
-              icon="🔨" iconBg="#d97706" label="Build · npm run build"
-              badge="● Building"
-              badgeStyle={{ color: '#92400e', background: 'rgba(217,119,6,0.12)' }}
-            />
-            <div className="pn-vline" />
-            <PipelineNode icon="☁" iconBg="#6c63ff" label="Deploy to Cloud" menu />
-            <div className="pn-vline" />
-            <div className="pn-branches">
-              <PipelineNode icon="✓" iconBg="#16a34a" label="Health Check" sm />
-              <PipelineNode icon="🔒" iconBg="#2563eb" label="SSL Certificate" sm />
-              <PipelineNode icon="🌐" iconBg="#0891b2" label="DNS Config" sm />
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="mockup-sidebar">
-            <div className="mockup-sb-head">
-              <div className="mockup-sb-title">
-                <CloudLogo width={14} />
-                Deployment
-              </div>
-              <button className="mockup-close">✕</button>
-            </div>
-            <div className="mockup-sb-tabs">
-              <span className="mockup-tab mockup-tab--on">Overview</span>
-              <span className="mockup-tab">Logs</span>
-              <span className="mockup-tab">Settings</span>
-            </div>
-            <div className="mockup-sb-body">
-              <div className="mockup-field">
-                <div className="mockup-field-label">Environment</div>
-                <div className="mockup-field-box">Production ▾</div>
-              </div>
-              <div className="mockup-field">
-                <div className="mockup-field-label">Domain</div>
-                <div className="mockup-field-box">myapp.joinanvil.ai</div>
-              </div>
-              <div className="mockup-live-card">
-                <span className="mockup-live-dot" />
-                <div>
-                  <div className="mockup-live-title">Live</div>
-                  <div className="mockup-live-sub">Deployed 2 min ago</div>
-                </div>
-              </div>
-              <div className="mockup-sb-cta">View Live App →</div>
-            </div>
-          </div>
+        <div className="mockup-demotabs">
+          {DEMO_TABS.map((t, i) => (
+            <button
+              key={t.label}
+              className={`mockup-demotab${tab === i ? ' mockup-demotab--on' : ''}`}
+              onClick={() => setTab(i)}
+            >
+              {t.icon} {t.label}
+            </button>
+          ))}
         </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18 }}
+          >
+            <Panel />
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
     </section>
   )
