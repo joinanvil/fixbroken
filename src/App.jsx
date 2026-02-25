@@ -319,7 +319,11 @@ function App() {
       {/* Nav */}
       <nav className="nav">
         <div className="logo">
-          <div className="logo-icon">A</div>
+          <svg className="logo-icon" width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="17" cy="15" rx="14" ry="7" fill="#6c63ff"/>
+            <circle cx="10" cy="12" r="7" fill="#6c63ff"/>
+            <circle cx="23" cy="9" r="9" fill="#6c63ff"/>
+          </svg>
           Anvil
         </div>
         <button className="nav-link" onClick={() => { track('cta_click', { button: 'get_help' }); setModalOpen(true) }}>
