@@ -474,6 +474,139 @@ function Features() {
   )
 }
 
+const HOW_STEPS = [
+  {
+    num: '01',
+    title: 'Connect your GitHub',
+    body: 'Grant us read access to your repo — that\'s it. No code changes, no config files, no setup wizard.',
+    icon: '🔗',
+  },
+  {
+    num: '02',
+    title: 'Our agent reads your code',
+    body: 'Our AI scans your project, figures out your stack, and sets up the right cloud infrastructure automatically.',
+    icon: '🤖',
+  },
+  {
+    num: '03',
+    title: 'Your app goes live',
+    body: 'We deploy it, hook up your domain, turn on SSL, and start watching. From there we handle updates, alerts, and fixes.',
+    icon: '🚀',
+  },
+]
+
+function HowItWorks() {
+  return (
+    <section className="how-section">
+      <motion.div
+        className="how-header"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="features-eyebrow">How it works</span>
+        <h2 className="features-title">Three steps from repo<br />to running in production</h2>
+        <p className="tech-stack-desc">All we need is access to your GitHub. The rest is on us.</p>
+      </motion.div>
+
+      <div className="how-steps">
+        {HOW_STEPS.map((step, i) => (
+          <motion.div
+            key={step.num}
+            className="how-step"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: i * 0.12 }}
+          >
+            <div className="how-step-top">
+              <span className="how-num">{step.num}</span>
+              <span className="how-icon">{step.icon}</span>
+            </div>
+            <h3 className="how-title">{step.title}</h3>
+            <p className="how-body">{step.body}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function PriceCalc({ onCta }) {
+  const [servers, setServers] = useState(1)
+  const [dbs, setDbs] = useState(1)
+
+  const serverPrice = servers * 29
+  const dbPrice = dbs * 19
+  const base = 29
+  const total = base + serverPrice + dbPrice
+
+  const recommended = total <= 79 ? 'Starter' : total <= 249 ? 'Pro' : 'Scale'
+
+  return (
+    <div className="calc-wrap">
+      <motion.div
+        className="calc-card"
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="calc-left">
+          <div className="calc-title">Estimate your cost</div>
+          <p className="calc-sub">Drag the sliders to match your setup. We&rsquo;ll show you what fits.</p>
+
+          <div className="calc-slider-group">
+            <div className="calc-slider-label">
+              <span>Cloud servers</span>
+              <span className="calc-val">{servers}</span>
+            </div>
+            <input
+              type="range" min="1" max="10" value={servers}
+              onChange={e => setServers(Number(e.target.value))}
+              className="calc-slider"
+            />
+            <div className="calc-range-labels"><span>1</span><span>10</span></div>
+          </div>
+
+          <div className="calc-slider-group">
+            <div className="calc-slider-label">
+              <span>Databases</span>
+              <span className="calc-val">{dbs}</span>
+            </div>
+            <input
+              type="range" min="1" max="10" value={dbs}
+              onChange={e => setDbs(Number(e.target.value))}
+              className="calc-slider"
+            />
+            <div className="calc-range-labels"><span>1</span><span>10</span></div>
+          </div>
+        </div>
+
+        <div className="calc-right">
+          <div className="calc-breakdown">
+            <div className="calc-line"><span>Base plan</span><span>$29</span></div>
+            <div className="calc-line"><span>{servers} server{servers > 1 ? 's' : ''} × $29</span><span>${serverPrice}</span></div>
+            <div className="calc-line"><span>{dbs} database{dbs > 1 ? 's' : ''} × $19</span><span>${dbPrice}</span></div>
+            <div className="calc-total-line" />
+            <div className="calc-total">
+              <span>Estimated total</span>
+              <span className="calc-total-price">${total}<span className="calc-mo">/mo</span></span>
+            </div>
+          </div>
+          <div className="calc-rec">
+            Closest plan: <strong>{recommended}</strong>
+          </div>
+          <button className="btn-primary calc-cta" onClick={onCta}>
+            Get an exact quote →
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
 const PLANS = [
   {
     name: 'Starter',
@@ -745,6 +878,8 @@ function App() {
         </motion.div>
       </main>
 
+      <HowItWorks />
+      <SectionDivider />
       <TechStack />
       <SectionDivider />
       <AppMockup />
@@ -752,6 +887,7 @@ function App() {
       <Features />
       <SectionDivider />
       <Pricing onCta={() => { track('cta_click', { button: 'pricing' }); setModalOpen(true) }} />
+      <PriceCalc onCta={() => { track('cta_click', { button: 'calc' }); setModalOpen(true) }} />
 
       <LogoTicker />
 
