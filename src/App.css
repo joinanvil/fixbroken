@@ -536,6 +536,19 @@
   margin: 0;
 }
 
+/* ── Section divider ── */
+.section-divider {
+  position: relative;
+  z-index: 1;
+  height: 1px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: calc(100% - 96px);
+  background: linear-gradient(to right, transparent, rgba(108,99,255,0.4) 30%, rgba(167,139,250,0.5) 50%, rgba(108,99,255,0.4) 70%, transparent);
+  transform-origin: center;
+  box-shadow: 0 0 12px rgba(108,99,255,0.2);
+}
+
 /* ── App Mockup section ── */
 .mockup-section {
   position: relative;

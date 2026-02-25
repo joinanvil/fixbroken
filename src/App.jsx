@@ -5,6 +5,22 @@ import './App.css'
 const CALENDLY_URL = 'https://calendly.com/daniel-joinanvil/30min'
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycby7YupguaO55A_GT_D1GsC9GZ_QLtcmlaZgnlmUBvr8uk3-m2c0GJD943M3wakrjB8P/exec'
 
+function CloudLogo({ width = 34, className }) {
+  const height = Math.round(width * 22 / 34)
+  return (
+    <svg className={className} width={width} height={height} viewBox="0 0 34 22" fill="none">
+      {/* Back cloud — semi-transparent */}
+      <ellipse cx="11" cy="15" rx="9"   ry="5.5" fill="#6c63ff" fillOpacity="0.5"/>
+      <circle  cx="7"  cy="11" r="5.5"          fill="#6c63ff" fillOpacity="0.5"/>
+      <circle  cx="15" cy="9"  r="6.5"          fill="#6c63ff" fillOpacity="0.5"/>
+      {/* Front cloud — solid */}
+      <ellipse cx="24" cy="15" rx="10"  ry="5.5" fill="#6c63ff"/>
+      <circle  cx="19" cy="11" r="6.5"          fill="#6c63ff"/>
+      <circle  cx="27" cy="8"  r="8"            fill="#6c63ff"/>
+    </svg>
+  )
+}
+
 const LOGOS = [
   { name: 'Google',   src: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg' },
   { name: 'AWS',      src: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg' },
@@ -84,6 +100,18 @@ function Particles() {
   )
 }
 
+function SectionDivider() {
+  return (
+    <motion.div
+      className="section-divider"
+      initial={{ scaleX: 0, opacity: 0 }}
+      whileInView={{ scaleX: 1, opacity: 1 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+    />
+  )
+}
+
 function PipelineNode({ iconBg, icon, label, badge, badgeStyle, menu, sm }) {
   return (
     <div className={`pn${sm ? ' pn-sm' : ''}`}>
@@ -125,11 +153,7 @@ function AppMockup() {
             <span className="mockup-wdot wd-green" />
           </div>
           <div className="mockup-breadcrumb">
-            <svg width="14" height="9" viewBox="0 0 34 22" fill="none">
-              <ellipse cx="17" cy="15" rx="14" ry="7" fill="#6c63ff"/>
-              <circle cx="10" cy="12" r="7" fill="#6c63ff"/>
-              <circle cx="23" cy="9" r="9" fill="#6c63ff"/>
-            </svg>
+            <CloudLogo width={14} />
             <span>my-ai-app</span>
             <span className="mockup-sep">›</span>
             <span>Deployments</span>
@@ -163,11 +187,7 @@ function AppMockup() {
           <div className="mockup-sidebar">
             <div className="mockup-sb-head">
               <div className="mockup-sb-title">
-                <svg width="14" height="9" viewBox="0 0 34 22" fill="none">
-                  <ellipse cx="17" cy="15" rx="14" ry="7" fill="#6c63ff"/>
-                  <circle cx="10" cy="12" r="7" fill="#6c63ff"/>
-                  <circle cx="23" cy="9" r="9" fill="#6c63ff"/>
-                </svg>
+                <CloudLogo width={14} />
                 Deployment
               </div>
               <button className="mockup-close">✕</button>
@@ -437,11 +457,7 @@ function App() {
       {/* Nav */}
       <nav className="nav">
         <div className="logo">
-          <svg className="logo-icon" width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="17" cy="15" rx="14" ry="7" fill="#6c63ff"/>
-            <circle cx="10" cy="12" r="7" fill="#6c63ff"/>
-            <circle cx="23" cy="9" r="9" fill="#6c63ff"/>
-          </svg>
+          <CloudLogo className="logo-icon" />
           Anvil
         </div>
         <button className="nav-link" onClick={() => { track('cta_click', { button: 'get_help' }); setModalOpen(true) }}>
@@ -537,9 +553,9 @@ function App() {
       </main>
 
       <TechStack />
-
+      <SectionDivider />
       <AppMockup />
-
+      <SectionDivider />
       <Features />
 
       <LogoTicker />
