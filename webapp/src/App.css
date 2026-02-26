@@ -2575,9 +2575,19 @@
   transform: translateY(0);
 }
 
+/* Bridge fills the gap so hover isn't lost while cursor moves down */
+.nav-user-wrap::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 16px;
+}
+
 .nav-user-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 16px);
   right: 0;
   background: var(--surface);
   border: 1px solid var(--border);

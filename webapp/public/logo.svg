@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="22" viewBox="0 0 34 22" fill="none">
+  <defs>
+    <mask id="m">
+      <rect width="34" height="22" fill="white"/>
+      <ellipse cx="24" cy="15" rx="11.5" ry="7" fill="black"/>
+      <circle cx="19" cy="11" r="8" fill="black"/>
+      <circle cx="27" cy="8" r="9.5" fill="black"/>
+    </mask>
+  </defs>
+  <!-- Back cloud -->
+  <g mask="url(#m)" fill="#6c63ff">
+    <ellipse cx="11" cy="15" rx="9" ry="5.5"/>
+    <circle cx="7" cy="11" r="5.5"/>
+    <circle cx="15" cy="9" r="6.5"/>
+  </g>
+  <!-- Front cloud -->
+  <g fill="#6c63ff">
+    <ellipse cx="24" cy="15" rx="10" ry="5.5"/>
+    <circle cx="19" cy="11" r="6.5"/>
+    <circle cx="27" cy="8" r="8"/>
+  </g>
+</svg>
