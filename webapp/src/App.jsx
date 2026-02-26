@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef, useId } from 'react'
+import { useState, useEffect, useRef, useId, Fragment } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 
 const CALENDLY_URL = 'https://calendly.com/daniel-joinanvil/30min'
+const API_URL = 'https://fixbroken-f36a.vercel.app'
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycby7YupguaO55A_GT_D1GsC9GZ_QLtcmlaZgnlmUBvr8uk3-m2c0GJD943M3wakrjB8P/exec'
 
 function CloudLogo({ width = 34, className }) {
@@ -497,6 +498,12 @@ function useTheme(pathname) {
   }, [pathname])
 }
 
+function useAuth() {
+  return useState(() => {
+    try { return JSON.parse(localStorage.getItem('anvil_user')) } catch { return null }
+  })[0]
+}
+
 function LogoTicker() {
   const doubled = [...LOGOS, ...LOGOS]
   return (
@@ -919,15 +926,152 @@ const HEADLINES = {
   b: 'Take your AI app live.',
 }
 
+function SignupGraphic() {
+  const steps = [
+    {
+      key: 'github',
+      icon: <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg" alt="GitHub" width={18} height={18} style={{ filter: 'invert(1) opacity(0.9)' }} />,
+      name: 'github.com/you/my-app',
+      sub: 'main · just now',
+      badge: 'Connected',
+      badgeCls: 'sg-badge--ok',
+    },
+    {
+      key: 'anvil',
+      icon: <CloudLogo width={18} />,
+      name: 'Anvil Agent',
+      sub: 'Reading your code…',
+      active: true,
+    },
+    {
+      key: 'live',
+      icon: <CloudLogo width={18} />,
+      name: 'your-app.joinanvil.ai',
+      sub: 'Live in ~2 hours',
+      badge: '↑ Live',
+      badgeCls: 'sg-badge--live',
+    },
+  ]
+  return (
+    <div className="sg-scene">
+      <div className="sg-headline">From your code to the internet —<br />we handle everything in between.</div>
+      {steps.map((step, i) => (
+        <Fragment key={step.key}>
+          <motion.div
+            className={`sg-card${step.active ? ' sg-card--active' : ''}`}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 + i * 0.18, duration: 0.4 }}
+          >
+            <div className="sg-card-icon">{step.icon}</div>
+            <div className="sg-card-text">
+              <div className="sg-card-name">{step.name}</div>
+              <div className="sg-card-sub">{step.sub}</div>
+            </div>
+            {step.badge && <span className={`sg-badge ${step.badgeCls}`}>{step.badge}</span>}
+            {step.active && (
+              <motion.span
+                className="sg-pulse-dot"
+                animate={{ scale: [1, 1.6, 1], opacity: [1, 0.3, 1] }}
+                transition={{ duration: 1.4, repeat: Infinity }}
+              />
+            )}
+          </motion.div>
+          {i < steps.length - 1 && (
+            <motion.div
+              className="sg-connector"
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ delay: 0.25 + i * 0.18, duration: 0.3 }}
+            />
+          )}
+        </Fragment>
+      ))}
+    </div>
+  )
+}
+
+function SignupPage() {
+  const navigate = useNavigate()
+  return (
+    <div className="signup-page">
+      <div className="signup-left">
+        <button className="signup-logo" onClick={() => navigate('/')}>
+          <CloudLogo width={26} />
+          <span>Anvil</span>
+        </button>
+
+        <div className="signup-form">
+          <div className="signup-eyebrow">Get started free</div>
+          <h1 className="signup-title">Deploy your app<br />in hours, not days.</h1>
+          <p className="signup-desc">
+            Connect your GitHub and give us read access to your code.
+            We&rsquo;ll analyze it, set up your cloud, and get you live —
+            automatically. No technical knowledge needed.
+          </p>
+
+          <a href={`${API_URL}/auth/github`} className="btn-github-signin">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg" alt="" width={20} height={20} />
+            Continue with GitHub
+          </a>
+
+          <div className="signup-perks">
+            <span><span className="perk-check">✓</span> First month free</span>
+            <span><span className="perk-check">✓</span> No credit card required</span>
+            <span><span className="perk-check">✓</span> Read-only repository access</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="signup-right">
+        <SignupGraphic />
+      </div>
+    </div>
+  )
+}
+
+function AuthCallbackPage() {
+  const navigate = useNavigate()
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.hash.slice(1))
+    const token = params.get('token')
+    if (!token) { navigate('/signup?error=1'); return }
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      localStorage.setItem('anvil_token', token)
+      localStorage.setItem('anvil_user', JSON.stringify({
+        id: payload.sub,
+        login: payload.login,
+        name: payload.name,
+        email: payload.email,
+        avatar: payload.avatar,
+      }))
+      navigate('/')
+    } catch {
+      navigate('/signup?error=1')
+    }
+  }, [navigate])
+
+  return (
+    <div className="auth-callback-page">
+      <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}>
+        <CloudLogo width={36} />
+      </motion.div>
+      <p>Signing you in…</p>
+    </div>
+  )
+}
+
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return null
 }
 
-function Nav({ onCta }) {
+function Nav() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const user = useAuth()
   return (
     <nav className="nav">
       <button className="logo" onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -938,7 +1082,14 @@ function Nav({ onCta }) {
         <button className={`nav-link${pathname === '/' ? ' nav-link--on' : ''}`} onClick={() => navigate('/')}>Home</button>
         <button className={`nav-link${pathname === '/how-it-works' ? ' nav-link--on' : ''}`} onClick={() => navigate('/how-it-works')}>How it works</button>
         <button className={`nav-link${pathname === '/pricing' ? ' nav-link--on' : ''}`} onClick={() => navigate('/pricing')}>Pricing</button>
-        <button className="nav-link nav-link--cta" onClick={onCta}>Get started &rarr;</button>
+        {user ? (
+          <button className="nav-user" onClick={() => navigate('/')}>
+            <img src={user.avatar} alt={user.name || user.login} className="nav-avatar" />
+            <span className="nav-user-name">{user.name || user.login}</span>
+          </button>
+        ) : (
+          <button className="nav-link nav-link--cta" onClick={() => navigate('/signup')}>Get started &rarr;</button>
+        )}
       </div>
     </nav>
   )
@@ -971,7 +1122,7 @@ function PricingPage({ onCta }) {
   )
 }
 
-function HomePage({ onCta }) {
+function HomePage() {
   const navigate = useNavigate()
   return (
     <>
@@ -1028,7 +1179,7 @@ function HomePage({ onCta }) {
         >
           <motion.button
             className="btn-primary"
-            onClick={() => onCta('get_app_live')}
+            onClick={() => navigate('/signup')}
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -1074,14 +1225,15 @@ function HomePage({ onCta }) {
   )
 }
 
-function AnimatedRoutes({ onCta }) {
+function AnimatedRoutes() {
   const location = useLocation()
+  const navigate = useNavigate()
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-            <HomePage onCta={onCta} />
+            <HomePage />
           </motion.div>
         } />
         <Route path="/how-it-works" element={
@@ -1091,9 +1243,11 @@ function AnimatedRoutes({ onCta }) {
         } />
         <Route path="/pricing" element={
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-            <PricingPage onCta={() => onCta('pricing')} />
+            <PricingPage onCta={() => navigate('/signup')} />
           </motion.div>
         } />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
       </Routes>
     </AnimatePresence>
   )
@@ -1182,11 +1336,11 @@ function App() {
       <div className="grid-bg" />
 
       <ScrollToTop />
-      <Nav onCta={() => openModal('nav')} />
+      <Nav />
 
-      <AnimatedRoutes onCta={openModal} />
+      <AnimatedRoutes />
 
-      <LogoTicker />
+      {pathname !== '/signup' && pathname !== '/auth/callback' && <LogoTicker />}
 
       {/* Modal */}
       <AnimatePresence>
