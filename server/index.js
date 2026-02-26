@@ -69,6 +69,11 @@ app.get('/auth/github/callback', async (req, res) => {
       emails.forEach((e, i) => {
         console.log(`  [${i}] ${e.email} | primary=${e.primary} verified=${e.verified} visibility=${e.visibility}`)
       })
+      // Email priority:
+      // 1. Primary + verified + not a GitHub address
+      // 2. Any verified + not a GitHub address
+      // 3. Primary + verified (even if GitHub noreply)
+      // 4. Any verified (last resort)
       const isReal = e => !e.email.includes('github')
       const primaryVerified     = emails.find(e => e.primary && e.verified && isReal(e))
       const anyVerified         = emails.find(e => e.verified && isReal(e))
