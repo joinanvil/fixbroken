@@ -171,7 +171,7 @@
 }
 
 .headline {
-  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.08;
@@ -194,7 +194,7 @@
 
 .subtitle {
   margin-top: 20px;
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
   font-weight: 400;
   color: var(--text-secondary);
   max-width: 520px;

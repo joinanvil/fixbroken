@@ -845,7 +845,7 @@ function Pricing({ onCta }) {
 
 function PriceCalc({ onCta }) {
   const [servers, setServers] = useState(1)
-  const [dbs, setDbs] = useState(1)
+  const [dbs, setDbs] = useState(0)
 
   const discountPct = Math.min((servers - 1) * 10, 50)
   const discountedRate = parseFloat((29 * (1 - discountPct / 100)).toFixed(2))
@@ -893,11 +893,11 @@ function PriceCalc({ onCta }) {
               <span className="calc-val">{dbs}</span>
             </div>
             <input
-              type="range" min="1" max="10" value={dbs}
+              type="range" min="0" max="10" value={dbs}
               onChange={e => setDbs(Number(e.target.value))}
               className="calc-slider"
             />
-            <div className="calc-range-labels"><span>1</span><span>10</span></div>
+            <div className="calc-range-labels"><span>0</span><span>10</span></div>
           </div>
         </div>
 
