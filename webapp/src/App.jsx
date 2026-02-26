@@ -1346,7 +1346,7 @@ function App() {
       <div className="grid-bg" />
 
       <ScrollToTop />
-      <Nav />
+      {pathname !== '/signup' && pathname !== '/auth/callback' && <Nav />}
 
       <AnimatedRoutes />
 
