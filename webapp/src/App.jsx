@@ -1363,11 +1363,11 @@ function App() {
       <div className="grid-bg" />
 
       <ScrollToTop />
-      {pathname !== '/signup' && pathname !== '/auth/callback' && <Nav />}
+      {pathname !== '/signup' && pathname !== '/auth/callback' && pathname !== '/dashboard' && <Nav />}
 
       <AnimatedRoutes />
 
-      {pathname !== '/signup' && pathname !== '/auth/callback' && <LogoTicker />}
+      {pathname !== '/signup' && pathname !== '/auth/callback' && pathname !== '/dashboard' && <LogoTicker />}
 
       {/* Modal */}
       <AnimatePresence>

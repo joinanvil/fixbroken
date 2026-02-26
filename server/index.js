@@ -64,10 +64,12 @@ app.get('/auth/github/callback', async (req, res) => {
         headers: { Authorization: `Bearer ${access_token}`, 'User-Agent': 'Anvil' },
       })
       const emails = await emailRes.json()
+      console.log('GitHub emails for', ghUser.login, ':', JSON.stringify(emails))
       const primary = emails.find(e => e.primary && e.verified)
         || emails.find(e => e.verified)
       if (primary) email = primary.email
-    } catch {
+    } catch (err) {
+      console.error('Failed to fetch emails:', err.message)
       // fall back to profile email
     }
 

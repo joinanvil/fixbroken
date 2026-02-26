@@ -6,6 +6,13 @@ function useAuth() {
   try { return JSON.parse(localStorage.getItem('anvil_user')) } catch { return null }
 }
 
+const AGENT_MESSAGES = [
+  { from: 'agent', text: "Hi! I'm your Anvil agent. Once you're assigned, I'll be right here." },
+  { from: 'agent', text: "I'll handle your deployment, monitor your app 24/7, and fix bugs as they come up." },
+  { from: 'user',  text: "Can you deploy my app?" },
+  { from: 'agent', text: "Absolutely — just share your GitHub link and I'll take it from there." },
+]
+
 export default function DashboardPage() {
   const navigate = useNavigate()
   const user = useAuth()
@@ -24,45 +31,125 @@ export default function DashboardPage() {
   }
 
   return (
-    <motion.div
-      className="dashboard-page"
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="dashboard-card">
-        <img src={user.avatar} alt={user.name || user.login} className="dashboard-avatar" />
-        <h2 className="dashboard-greeting">Hi, {user.name || user.login}.</h2>
+    <div className="db-layout">
 
-        <img
-          src="https://placedog.net/400/280?id=85"
-          alt="Sorry dog"
-          className="dashboard-sorry-dog"
-        />
-
-        <div className="dashboard-capacity-badge">At capacity</div>
-
-        <h3 className="dashboard-title">We&rsquo;re heads-down on current projects.</h3>
-        <p className="dashboard-desc">
-          We&rsquo;ll notify you at <strong>{user.email || `@${user.login}`}</strong> the
-          moment our agent is ready to take on new work. You&rsquo;re in the queue —
-          we&rsquo;ll be in touch soon.
-        </p>
-
-        <div className="dashboard-checklist">
-          <div className="dashboard-check-item">
-            <span className="dashboard-check">✓</span>Account created
-          </div>
-          <div className="dashboard-check-item dashboard-check-item--pending">
-            <span className="dashboard-check-pending">○</span>Agent assigned to your project
-          </div>
-          <div className="dashboard-check-item dashboard-check-item--pending">
-            <span className="dashboard-check-pending">○</span>Deployment kicks off
-          </div>
+      {/* ── Top bar ───────────────────────────────────────────────────────── */}
+      <header className="db-topbar">
+        <button className="db-topbar-logo" onClick={() => navigate('/')}>
+          <img src="/logo.png" width={20} height={20} alt="Anvil" />
+          <span>Anvil</span>
+        </button>
+        <div className="db-topbar-right">
+          <img src={user.avatar} alt={user.name || user.login} className="db-topbar-avatar" />
+          <span className="db-topbar-name">{user.name || user.login}</span>
+          <button className="db-topbar-signout" onClick={signOut}>Sign out</button>
         </div>
+      </header>
 
-        <button className="dashboard-signout" onClick={signOut}>Sign out</button>
+      <div className="db-body">
+
+        {/* ── Projects sidebar ──────────────────────────────────────────── */}
+        <aside className="db-projects">
+          <div className="db-sidebar-label">Projects</div>
+
+          <div className="db-project-item db-project-item--active">
+            <span className="db-project-dot db-project-dot--pending" />
+            <span className="db-project-name">{user.login}&rsquo;s app</span>
+            <span className="db-project-status">Queue</span>
+          </div>
+
+          <div className="db-project-add">
+            <span className="db-project-add-icon">+</span>
+            New project
+            <span className="db-project-lock">🔒</span>
+          </div>
+        </aside>
+
+        {/* ── Agent chat sidebar ────────────────────────────────────────── */}
+        <aside className="db-chat">
+          <div className="db-chat-header">
+            <span className="db-chat-title">Agent Chat</span>
+            <span className="db-chat-status db-chat-status--offline">● Offline</span>
+          </div>
+
+          <div className="db-chat-messages">
+            {AGENT_MESSAGES.map((m, i) => (
+              <div key={i} className={`db-chat-bubble db-chat-bubble--${m.from}`}>
+                {m.from === 'agent' && (
+                  <img src="/logo.png" width={16} height={16} alt="" className="db-chat-agent-icon" />
+                )}
+                <span>{m.text}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="db-chat-input-row">
+            <input className="db-chat-input" placeholder="Message your agent…" disabled />
+            <button className="db-chat-send" disabled>↑</button>
+          </div>
+
+          {/* Lock overlay */}
+          <div className="db-panel-overlay">
+            <div className="db-overlay-card">
+              <span className="db-overlay-lock">🔒</span>
+              <p>Available once your<br />agent is assigned</p>
+            </div>
+          </div>
+        </aside>
+
+        {/* ── Main content ──────────────────────────────────────────────── */}
+        <main className="db-main">
+          <motion.div
+            className="db-status-card"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img src={user.avatar} alt={user.name || user.login} className="db-status-avatar" />
+            <h2 className="db-status-greeting">Hi, {user.name || user.login}.</h2>
+
+            <img
+              src="https://placedog.net/400/280?id=85"
+              alt="Sorry dog"
+              className="db-status-dog"
+            />
+
+            <div className="db-status-badge">At capacity</div>
+
+            <h3 className="db-status-title">We&rsquo;re heads-down on current projects.</h3>
+            <p className="db-status-desc">
+              We&rsquo;ll notify you at <strong>{user.email || `@${user.login}`}</strong> the
+              moment our agent is ready to take on new work. You&rsquo;re in the queue —
+              we&rsquo;ll be in touch soon.
+            </p>
+
+            <div className="db-checklist">
+              <div className="db-check-item">
+                <span className="db-check-icon db-check-icon--done">✓</span>
+                Account created
+              </div>
+              <div className="db-check-item db-check-item--pending">
+                <span className="db-check-icon db-check-icon--pending">○</span>
+                Agent assigned to your project
+              </div>
+              <div className="db-check-item db-check-item--pending">
+                <span className="db-check-icon db-check-icon--pending">○</span>
+                Deployment kicks off
+              </div>
+            </div>
+
+            <a
+              href="https://calendly.com/daniel-joinanvil/30min"
+              target="_blank"
+              rel="noreferrer"
+              className="db-book-btn"
+            >
+              Book a meeting →
+            </a>
+          </motion.div>
+        </main>
+
       </div>
-    </motion.div>
+    </div>
   )
 }
