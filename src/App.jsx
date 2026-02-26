@@ -150,11 +150,11 @@ function DeployPanel() {
       </div>
 
       <div className="mp-steps">
-        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Your app uses React + a Node.js backend</div>
+        <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Your app uses a website and a server</div>
         <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Found your database and environment variables</div>
         <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Setting up your server in the cloud</div>
         <div className="mp-step mp-active"><span className="mp-dot mp-dot--active">●</span>Connecting your custom domain…</div>
-        <div className="mp-step mp-muted"><span className="mp-dot mp-dot--muted">○</span>Turning on SSL so your users are secure</div>
+        <div className="mp-step mp-muted"><span className="mp-dot mp-dot--muted">○</span>Turning on encryption so your users are secure</div>
       </div>
 
       <div className="mp-progress">
@@ -209,7 +209,7 @@ function FixPanel() {
         <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Read through the error logs</div>
         <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Found the problem — too many users connecting at once</div>
         <div className="mp-step mp-done"><span className="mp-dot mp-dot--done">✓</span>Wrote a fix and tested it</div>
-        <div className="mp-step mp-active"><span className="mp-dot mp-dot--active">●</span>Opening a pull request for you to review…</div>
+        <div className="mp-step mp-active"><span className="mp-dot mp-dot--active">●</span>Sending the fix to GitHub for your review…</div>
       </div>
 
       <div className="mp-card mp-pr">
@@ -246,11 +246,11 @@ function SecurityPanel() {
         <div className="mp-sec-item mp-sec-ok"><span className="mp-sec-icon">✓</span>No secrets found in source code</div>
         <div className="mp-sec-item mp-sec-warn">
           <span className="mp-sec-icon mp-sec-icon--warn">⚠</span>
-          <span>Outdated dependency with known CVE</span>
+          <span>Outdated dependency with known security flaw</span>
           <span className="mp-sec-patch">Auto-patching →</span>
         </div>
         <div className="mp-sec-item mp-sec-ok"><span className="mp-sec-icon">✓</span>SSL certificate active &amp; auto-renewing</div>
-        <div className="mp-sec-item mp-sec-ok"><span className="mp-sec-icon">✓</span>CORS &amp; security headers configured</div>
+        <div className="mp-sec-item mp-sec-ok"><span className="mp-sec-icon">✓</span>Security protections activated</div>
       </div>
 
       <div className="mp-card mp-sec-summary">
@@ -302,9 +302,9 @@ function AppMockup() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.6 }}
           >
-            <span className="features-eyebrow">Product</span>
+            <span className="features-eyebrow">See it in action</span>
             <h2 className="features-title">Your app, handled<br />end to end</h2>
-            <p className="tech-stack-desc">Share your GitHub link. We take it from there — no setup, no DevOps, no surprises.</p>
+            <p className="tech-stack-desc">Share your GitHub link. We take it from there — no setup, no hassle, no surprises.</p>
           </motion.div>
 
           <motion.div
@@ -386,7 +386,7 @@ function TechStack() {
       >
         <span className="features-eyebrow">Any stack</span>
         <h2 className="features-title">We handle the complexity.<br />You stay focused on building.</h2>
-        <p className="tech-stack-desc">Whatever your AI tool generated — we know how to deploy it, wire it up, and keep it running. No DevOps degree required.</p>
+        <p className="tech-stack-desc">Whatever your AI tool generated — we know how to put it live, connect all the parts, and keep it running. No technical knowledge required.</p>
       </motion.div>
       <div className="tech-stack-grid">
         {TECH_LOGOS.map((logo, i) => (
@@ -448,7 +448,7 @@ function LogoTicker() {
   const doubled = [...LOGOS, ...LOGOS]
   return (
     <div className="logo-ticker-section">
-      <span className="logo-ticker-label">Trusted by teams<br />shipping with AI</span>
+      <span className="logo-ticker-label">Trusted by teams<br />building with AI</span>
       <div className="logo-ticker-wrapper">
         <div className="logo-ticker-track">
           {doubled.map((logo, i) => (
@@ -471,13 +471,13 @@ const FEATURES = [
     img: '/deploy.png',
     title: 'Ship to the Cloud',
     label: 'Deploy',
-    body: 'Your code, live on the cloud. We handle domains, SSL, and infrastructure so your app is fast, reliable, and ready to scale.',
+    body: 'Your code, live on the internet. We handle domains, servers, and all the technical setup so your app is fast and reliable from day one.',
   },
   {
     img: '/monitor.png',
     title: '24/7 Monitoring',
     label: 'Monitor',
-    body: 'We watch your app around the clock. Uptime checks, error alerts, and performance tracking — so your users never hit a wall.',
+    body: 'We watch your app around the clock. If something goes wrong, we know before your users do — and we\'re already on it.',
   },
   {
     img: '/bugfix.png',
@@ -498,7 +498,7 @@ function Features() {
         transition={{ duration: 0.6 }}
       >
         <span className="features-eyebrow">What we do</span>
-        <h2 className="features-title">Everything your app needs<br />to go from code to production</h2>
+        <h2 className="features-title">Everything your app needs<br />to go from code to live on the internet</h2>
       </motion.div>
 
       <div className="features-grid">
@@ -557,7 +557,7 @@ const HOW_PHASES = [
     icon: '☁️',
     title: 'We build your cloud setup',
     body: 'Based on what your app actually needs, we set up the right hosting, databases, and connections — all packaged up and ready to run. We then send a suggestion to your GitHub for you to look over and approve before anything changes.',
-    callout: 'We send a "pull request" — a tidy list of the changes we want to make — straight to your GitHub inbox. You review it, approve it, and we do the rest.',
+    callout: 'We send a "suggestion" — a tidy list of the changes we want to make — to your GitHub for you to review. You approve it, and we do the rest.',
     chips: [],
     details: [
       'Hosting for your website & backend',
@@ -606,7 +606,7 @@ const HOW_PHASES = [
       'Domain & SSL set up automatically',
       '24/7 uptime monitoring',
       'Instant alerts if something goes wrong',
-      'Bug fixes sent as pull requests for your approval',
+      'Bug fixes sent as code suggestions for your review',
     ],
   },
 ]
@@ -676,17 +676,17 @@ function HowItWorks() {
 const FREE_INCLUDED = [
   'Dashboard & monitoring',
   'Automatic deployments',
-  'Bug fixes & PRs',
-  'SSL + domain setup',
+  'Bug fixes & code suggestions',
+  'Secure connection (HTTPS) + domain setup',
   '24/7 uptime alerts',
-  'Agent code analysis',
-  'Secrets & env var management',
+  'Automatic code review',
+  'Password & secrets protection',
   'Security audit (on signup)',
 ]
 
 const RATES = [
-  { label: 'Cloud server', price: 29, desc: 'Per server/mo · 10% off per server added (up to 50%)', icon: '☁' },
-  { label: 'Database',     price: 19, desc: 'Per database, per month', icon: '🗄' },
+  { label: 'Cloud server', price: 29, desc: 'Per server/mo · 10% off per server added (up to 50%)', icon: '☁', footnote: '*' },
+  { label: 'Database',     price: 19, desc: 'Per database, per month', icon: '🗄', footnote: '†' },
 ]
 
 function Pricing({ onCta }) {
@@ -745,6 +745,7 @@ function Pricing({ onCta }) {
                 <span className="pricing-dollar">$</span>
                 <span className="pricing-amount">{r.price}</span>
                 <span className="pricing-per">/mo</span>
+                {r.footnote && <sup className="pricing-footnote-mark">{r.footnote}</sup>}
               </div>
               <div className="pricing-rate-desc">{r.desc}</div>
             </motion.div>
@@ -762,6 +763,11 @@ function Pricing({ onCta }) {
             </button>
           </motion.div>
         </div>
+      </div>
+
+      <div className="pricing-footnotes">
+        <p><sup>*</sup> Based on a Google Cloud e2-medium instance (2 vCPUs, 4 GB RAM). Price is per calendar month.</p>
+        <p><sup>†</sup> Based on a Google Cloud SQL managed database with 10 GB of storage.</p>
       </div>
     </section>
   )
@@ -995,12 +1001,12 @@ function HomePage({ onCta }) {
             <div className="stat-divider" />
             <div className="stat">
               <span className="stat-value">100%</span>
-              <span className="stat-label">Code handoff</span>
+              <span className="stat-label">You own your code</span>
             </div>
             <div className="stat-divider" />
             <div className="stat">
               <span className="stat-value">0</span>
-              <span className="stat-label">Lock-in</span>
+              <span className="stat-label">Long-term contracts</span>
             </div>
           </div>
         </motion.div>
@@ -1155,7 +1161,7 @@ function App() {
                 <>
                   <div className="modal-ad-badge">From broken to live</div>
                   <h2 className="modal-title modal-ad-title">
-                    We&rsquo;ll take production<br />off your plate.
+                    We&rsquo;ll take running<br />your app off your plate.
                   </h2>
                   <p className="modal-desc">
                     Your app works locally. We make it work for everyone else &mdash; and keep it that way.
