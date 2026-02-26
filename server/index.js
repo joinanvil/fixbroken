@@ -57,24 +57,30 @@ app.get('/auth/github/callback', async (req, res) => {
     const ghUser = await userRes.json()
 
     // Always fetch verified primary email from /user/emails
-    // (ghUser.email is the public profile email — may be stale or wrong)
     let email = ghUser.email
+    console.log('[email] profile email (ghUser.email):', ghUser.email)
     try {
       const emailRes = await fetch('https://api.github.com/user/emails', {
         headers: { Authorization: `Bearer ${access_token}`, 'User-Agent': 'Anvil' },
       })
+      console.log('[email] /user/emails status:', emailRes.status)
       const emails = await emailRes.json()
-      console.log('GitHub emails for', ghUser.login, ':', JSON.stringify(emails))
-      const primary = emails.find(e => e.primary && e.verified)
-        || emails.find(e => e.verified)
-      if (primary) email = primary.email
+      console.log('[email] all emails:')
+      emails.forEach((e, i) => {
+        console.log(`  [${i}] ${e.email} | primary=${e.primary} verified=${e.verified} visibility=${e.visibility}`)
+      })
+      const primaryVerified = emails.find(e => e.primary && e.verified)
+      const anyVerified = emails.find(e => e.verified)
+      console.log('[email] primary+verified:', primaryVerified?.email ?? 'none')
+      console.log('[email] any verified:', anyVerified?.email ?? 'none')
+      const picked = primaryVerified || anyVerified
+      if (picked) email = picked.email
     } catch (err) {
-      console.error('Failed to fetch emails:', err.message)
-      // fall back to profile email
+      console.error('[email] Failed to fetch /user/emails:', err.message)
     }
 
     // Log signup
-    console.log('New signup:', { login: ghUser.login, name: ghUser.name || ghUser.login, email })
+    console.log('[signup]', { login: ghUser.login, name: ghUser.name || ghUser.login, email })
 
     // Log signup to Google Sheet
     if (process.env.SHEET_URL) {
