@@ -607,9 +607,10 @@
   top: 0;
   height: 100vh;
   display: flex;
-  align-items: flex-start;
-  overflow: visible;
-  padding-top: 48px;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 20px 0 24px;
 }
 
 /* ── App Mockup section ── */
@@ -620,11 +621,16 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .mockup-eyebrow {
   text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 28px;
+  flex-shrink: 0;
 }
 
 .mockup-frame {
@@ -635,6 +641,10 @@
     0 0 0 1px rgba(255,255,255,0.07),
     0 32px 80px rgba(0,0,0,0.55),
     0 8px 24px rgba(0,0,0,0.25);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .mockup-titlebar {
@@ -644,6 +654,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-shrink: 0;
 }
 
 .mockup-wdots {
@@ -679,11 +690,15 @@
 .mockup-content-wrap {
   display: flex;
   position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .mockup-panel-area {
   flex: 1;
   min-width: 0;
+  overflow-y: auto;
 }
 
 .mockup-progress-nav {
@@ -757,6 +772,7 @@
   border-bottom: 1px solid #e2e5eb;
   padding: 0 20px;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .mockup-demotab {
