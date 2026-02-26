@@ -966,7 +966,7 @@ function App() {
   const [email, setEmail] = useState('')
   const [isValid, setIsValid] = useState(false)
   const emailTracked = useRef(false)
-  const exitFired = useRef(false)
+  const modalOpenedAt = useRef(0)
 
   const track = (event, params = {}) => {
     if (typeof window.gtag === 'function') {
@@ -974,19 +974,26 @@ function App() {
     }
   }
 
-  const openModal = (btn) => { track('cta_click', { button: btn }); setModalOpen(true) }
+  const openModal = (btn) => {
+    track('cta_click', { button: btn })
+    modalOpenedAt.current = Date.now()
+    setModalOpen(true)
+  }
 
   useEffect(() => {
     track('headline_variant_shown', { variant: HEADLINE_VARIANT, headline: HEADLINES[HEADLINE_VARIANT] })
   }, [])
 
   useEffect(() => {
+    if (localStorage.getItem('anvil_ei')) return // already shown on this device
     const handler = (e) => {
-      if (exitFired.current || e.clientY > 20) return
-      exitFired.current = true
+      if (e.clientY > 10) return
+      localStorage.setItem('anvil_ei', '1')
+      modalOpenedAt.current = Date.now()
       setIsExitIntent(true)
       setModalOpen(true)
       track('exit_intent')
+      document.removeEventListener('mouseleave', handler)
     }
     document.addEventListener('mouseleave', handler)
     return () => document.removeEventListener('mouseleave', handler)
@@ -1043,8 +1050,8 @@ function App() {
         {modalOpen && (
           <motion.div
             className="modal-overlay"
-            onClick={() => setModalOpen(false)}
-            initial={fromAd ? false : { opacity: 0 }}
+            onClick={() => { if (Date.now() - modalOpenedAt.current > 400) setModalOpen(false) }}
+            initial={false}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
@@ -1052,7 +1059,7 @@ function App() {
             <motion.div
               className={`modal${showAdModal ? ' modal-ad' : ''}`}
               onClick={(e) => e.stopPropagation()}
-              initial={fromAd ? false : { opacity: 0, scale: 0.95, y: 10 }}
+              initial={false}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
