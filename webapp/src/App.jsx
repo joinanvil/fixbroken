@@ -740,7 +740,7 @@ const FREE_INCLUDED = [
 ]
 
 const RATES = [
-  { label: 'Cloud server', price: 29, desc: 'Per server/mo · 10% off per server added (up to 50%)', icon: '☁', footnote: '*' },
+  { label: 'Cloud server', price: 29, desc: 'Per server/mo · 10% off per server (up to 50%)', icon: '☁', footnote: '*' },
   { label: 'Database',     price: 19, desc: 'Per database, per month', icon: '🗄', footnote: '†' },
 ]
 
@@ -831,7 +831,7 @@ function PriceCalc({ onCta }) {
   const [servers, setServers] = useState(1)
   const [dbs, setDbs] = useState(0)
 
-  const discountPct = Math.min((servers - 1) * 10, 50)
+  const discountPct = Math.min(servers * 10, 50)
   const discountedRate = parseFloat((29 * (1 - discountPct / 100)).toFixed(2))
   const serverPrice = parseFloat((servers * discountedRate).toFixed(2))
   const dbPrice = dbs * 19
