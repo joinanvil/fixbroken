@@ -531,24 +531,86 @@ function Features() {
   )
 }
 
-const HOW_STEPS = [
+const HOW_PHASES = [
   {
     num: '01',
-    title: 'Connect your GitHub',
-    body: 'Grant us read access to your repo — that\'s it. No code changes, no config files, no setup wizard.',
     icon: '🔗',
+    title: 'Connect your GitHub',
+    body: 'Give us read access to your code in one click — that\'s it. No forms to fill out, no files to upload, no setup wizard. You stay in control the whole time.',
+    callout: null,
+    chips: [],
+    details: [],
   },
   {
     num: '02',
-    title: 'Our agent reads your code',
-    body: 'Our AI scans your project, figures out your stack, and sets up the right cloud infrastructure automatically.',
-    icon: '🤖',
+    icon: '🔍',
+    title: 'Our agent maps your app',
+    body: 'We send an AI agent into your code to understand what you\'ve built. It figures out every piece of your app — the website visitors see, the logic running behind the scenes, the data your app stores — before touching anything.',
+    callout: 'Think of it like hiring a senior developer to read through everything and write up a plan before starting any work.',
+    chips: [],
+    details: [
+      'Identifies your website / user interface',
+      'Finds your backend logic and API',
+      'Spots any databases your app uses',
+      'Maps how all the pieces connect',
+    ],
   },
   {
     num: '03',
-    title: 'Your app goes live',
-    body: 'We deploy it, hook up your domain, turn on SSL, and start watching. From there we handle updates, alerts, and fixes.',
+    icon: '☁️',
+    title: 'We build your cloud setup',
+    body: 'Based on what your app actually needs, we set up the right hosting, databases, and connections — all packaged up and ready to run. We then send a suggestion to your GitHub for you to look over and approve before anything changes.',
+    callout: 'We send a "pull request" — a tidy list of the changes we want to make — straight to your GitHub inbox. You review it, approve it, and we do the rest.',
+    chips: [],
+    details: [
+      'Hosting for your website & backend',
+      'Database setup if your app stores data',
+      'Secure connections between all parts',
+      'You approve every change before it goes in',
+    ],
+  },
+  {
+    num: '04',
+    icon: '🔒',
+    title: 'Security audit — included free',
+    body: 'Before anything goes live, our agent scans your code for common mistakes that could expose your users or your business. We catch things developers often miss, and we fix them automatically where we can.',
+    callout: null,
+    chips: [{ label: 'Always free', color: 'green' }],
+    details: [
+      'Passwords & API keys accidentally left in the code',
+      'User data that could be seen by the wrong people',
+      'Outdated libraries with known security issues',
+      'Missing encryption on connections (SSL)',
+      'Environment variables properly protected',
+    ],
+  },
+  {
+    num: '05',
+    icon: '🔬',
+    title: 'Preview it before anyone else sees it',
+    body: 'Before your app goes public, you get a private link — a "staging" copy — that looks and works exactly like the real thing. Test it, share it with your team, and make sure you\'re happy with everything.',
+    callout: 'Nothing goes live until you give the green light.',
+    chips: [],
+    details: [
+      'Full working copy of your app, privately accessible',
+      'Share with teammates or clients for feedback',
+      'Test every feature before real users see it',
+      'Flip to live in one click when you\'re ready',
+    ],
+  },
+  {
+    num: '06',
     icon: '🚀',
+    title: 'Live — and we keep watching',
+    body: 'Your app is on the internet, your domain is connected, and we\'re watching it 24/7. If something breaks, we\'re on it — often before you even notice. Updates, fixes, and improvements happen automatically.',
+    callout: null,
+    chips: [],
+    details: [
+      'Domain & SSL set up automatically',
+      '24/7 uptime monitoring',
+      'Instant alerts if something goes wrong',
+      'Bug fixes sent as pull requests for your approval',
+    ],
   },
 ]
 
@@ -563,26 +625,50 @@ function HowItWorks() {
         transition={{ duration: 0.6 }}
       >
         <span className="features-eyebrow">How it works</span>
-        <h2 className="features-title">Three steps from repo<br />to running in production</h2>
-        <p className="tech-stack-desc">All we need is access to your GitHub. The rest is on us.</p>
+        <h2 className="features-title">From your code to live —<br />here&rsquo;s exactly what happens</h2>
+        <p className="tech-stack-desc">Written in plain English. No tech jargon. All you need to do is share your GitHub link.</p>
       </motion.div>
 
-      <div className="how-steps">
-        {HOW_STEPS.map((step, i) => (
+      <div className="how-timeline">
+        {HOW_PHASES.map((phase, i) => (
           <motion.div
-            key={step.num}
-            className="how-step"
-            initial={{ opacity: 0, y: 32 }}
+            key={phase.num}
+            className="how-phase"
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5, delay: i * 0.12 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.55, delay: 0.05 }}
           >
-            <div className="how-step-top">
-              <span className="how-num">{step.num}</span>
-              <span className="how-icon">{step.icon}</span>
+            <div className="how-phase-left">
+              <div className="how-phase-num">{phase.num}</div>
+              {i < HOW_PHASES.length - 1 && <div className="how-phase-line" />}
             </div>
-            <h3 className="how-title">{step.title}</h3>
-            <p className="how-body">{step.body}</p>
+
+            <div className="how-phase-right">
+              <div className="how-phase-icon">{phase.icon}</div>
+              <div className="how-phase-header">
+                <h3 className="how-phase-title">{phase.title}</h3>
+                {phase.chips.map(c => (
+                  <span key={c.label} className={`how-chip how-chip--${c.color}`}>{c.label}</span>
+                ))}
+              </div>
+              <p className="how-phase-body">{phase.body}</p>
+
+              {phase.details.length > 0 && (
+                <ul className="how-phase-details">
+                  {phase.details.map(d => (
+                    <li key={d}><span className="how-check">✓</span>{d}</li>
+                  ))}
+                </ul>
+              )}
+
+              {phase.callout && (
+                <div className="how-callout">
+                  <span className="how-callout-icon">💬</span>
+                  {phase.callout}
+                </div>
+              )}
+            </div>
           </motion.div>
         ))}
       </div>
