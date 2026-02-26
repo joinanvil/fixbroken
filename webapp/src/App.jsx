@@ -1351,7 +1351,7 @@ function App() {
   }
 
   return (
-    <div className="page">
+    <div className={`page${pathname === '/dashboard' ? ' page--app' : ''}`}>
       <SkyOverlay />
       <FloatingOrbs />
       <Particles />

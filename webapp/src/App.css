@@ -2440,6 +2440,11 @@
 }
 
 /* ── Dashboard app layout ────────────────────────────────────────────────── */
+.page--app {
+  overflow: hidden;
+  height: 100vh;
+}
+
 .db-layout {
   display: flex;
   flex-direction: column;

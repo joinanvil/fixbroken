@@ -40,9 +40,16 @@ export default function DashboardPage() {
           <span>Anvil</span>
         </button>
         <div className="db-topbar-right">
-          <img src={user.avatar} alt={user.name || user.login} className="db-topbar-avatar" />
-          <span className="db-topbar-name">{user.name || user.login}</span>
-          <button className="db-topbar-signout" onClick={signOut}>Sign out</button>
+          <div className="nav-user-wrap">
+            <button className="nav-user">
+              <img src={user.avatar} alt={user.name || user.login} className="nav-avatar" />
+              <span className="nav-user-name">{user.name || user.login}</span>
+            </button>
+            <div className="nav-user-dropdown">
+              <button className="nav-dropdown-item" onClick={() => navigate('/dashboard')}>Dashboard</button>
+              <button className="nav-dropdown-item nav-dropdown-item--danger" onClick={signOut}>Sign out</button>
+            </div>
+          </div>
         </div>
       </header>
 
