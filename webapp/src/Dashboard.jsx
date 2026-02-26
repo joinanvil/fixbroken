@@ -84,16 +84,8 @@ export default function DashboardPage() {
           </div>
 
           <div className="db-chat-input-row">
-            <input className="db-chat-input" placeholder="Message your agent…" disabled />
+            <input className="db-chat-input" placeholder="Agent not yet assigned…" disabled />
             <button className="db-chat-send" disabled>↑</button>
-          </div>
-
-          {/* Lock overlay */}
-          <div className="db-panel-overlay">
-            <div className="db-overlay-card">
-              <span className="db-overlay-lock">🔒</span>
-              <p>Available once your<br />agent is assigned</p>
-            </div>
           </div>
         </aside>
 
