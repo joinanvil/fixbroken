@@ -2446,6 +2446,8 @@
   align-items: center;
   justify-content: center;
   padding: 80px 24px 40px;
+  position: relative;
+  z-index: 1;
 }
 
 .dashboard-card {
