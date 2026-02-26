@@ -1192,7 +1192,7 @@ function HomePage() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           Built it with AI but don&rsquo;t know how to put it online?
-          We handle everything — no technical skills needed. Just share your link.
+          We handle everything — no technical skills needed.
         </motion.p>
 
         <motion.div
