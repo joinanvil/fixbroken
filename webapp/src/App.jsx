@@ -469,6 +469,7 @@ function useTheme(pathname) {
   const timer = useRef(null)
   useEffect(() => {
     const setTheme = (t) => document.documentElement.setAttribute('data-theme', t)
+    const alreadySeen = localStorage.getItem('anvil_theme') === 'light'
 
     if (pathname !== '/') {
       clearTimeout(timer.current)
@@ -477,13 +478,22 @@ function useTheme(pathname) {
       return
     }
 
-    // Homepage: start dark, switch to light after first activity
+    // Homepage, already transitioned before — stay light, no animation
+    if (alreadySeen) {
+      setTheme('light')
+      return
+    }
+
+    // Homepage, first ever visit — start dark, animate to light on activity
     document.documentElement.removeAttribute('data-theme')
     timer.current = null
 
     const onActivity = () => {
       if (timer.current) return
-      timer.current = setTimeout(() => setTheme('light'), 1000)
+      timer.current = setTimeout(() => {
+        setTheme('light')
+        localStorage.setItem('anvil_theme', 'light')
+      }, 1000)
     }
     window.addEventListener('mousemove', onActivity)
     window.addEventListener('scroll', onActivity, { passive: true })
@@ -947,7 +957,7 @@ function SignupGraphic() {
       key: 'live',
       icon: <CloudLogo width={18} />,
       name: 'your-app.joinanvil.ai',
-      sub: 'Live in ~2 hours',
+      sub: 'Live in ~10 minutes',
       badge: '↑ Live',
       badgeCls: 'sg-badge--live',
     },
