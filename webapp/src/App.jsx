@@ -775,10 +775,6 @@ function Pricing({ onCta }) {
         <div className="pricing-first-month-banner">
           <strong>First month free.</strong> No credit card required. Cancel anytime.
         </div>
-        <div className="pricing-ui-free-banner">
-          <span className="pricing-ui-free-icon">🎉</span>
-          <strong>UI, dashboard, monitoring, bug fixes &amp; security audit — all completely free.</strong>
-        </div>
       </motion.div>
 
       <div className="pricing-model">
