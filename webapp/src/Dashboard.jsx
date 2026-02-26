@@ -74,11 +74,6 @@ export default function DashboardPage() {
 
         {/* ── Agent chat sidebar ────────────────────────────────────────── */}
         <aside className="db-chat">
-          <div className="db-chat-header">
-            <span className="db-chat-title">Agent Chat</span>
-            <span className="db-chat-status db-chat-status--offline">● Offline</span>
-          </div>
-
           <div className="db-chat-messages">
             {AGENT_MESSAGES.map((m, i) => (
               <div key={i} className={`db-chat-bubble db-chat-bubble--${m.from}`}>
