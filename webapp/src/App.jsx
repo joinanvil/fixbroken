@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 import DashboardPage from './Dashboard.jsx'
 import HowItWorksVisual from './HowItWorksVisual.jsx'
+import DomainsSection from './DomainsSection.jsx'
 
 const CALENDLY_URL = 'https://calendly.com/daniel-joinanvil/30min'
 const API_URL = 'https://fixbroken-f36a.vercel.app'
@@ -717,9 +718,8 @@ function HowItWorks() {
           />
           <div>
             <h3 className="hiw-connect-title">Connect your GitHub</h3>
-            <p className="hiw-connect-desc">Give us read-only access to your code in one click. No forms, no uploads, no setup wizard. You stay in control the whole time.</p>
+            <p className="hiw-connect-desc">Give us access to your code in one click. No forms, no uploads, no setup wizard. You stay in control the whole time.</p>
           </div>
-          <div className="hiw-connect-badge">Read-only · Cancel anytime</div>
         </div>
       </motion.div>
 
@@ -1230,6 +1230,8 @@ function HomePage() {
       <AppMockup />
       <SectionDivider />
       <Features />
+      <SectionDivider />
+      <DomainsSection />
     </>
   )
 }
