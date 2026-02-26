@@ -228,6 +228,46 @@ function FixPanel() {
   )
 }
 
+function IconGitHub() {
+  return <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg" alt="GitHub" width={28} height={28} className="how-icon-github" />
+}
+
+function IconScan() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  )
+}
+
+function IconCloudBuild() {
+  return <CloudLogo width={28} />
+}
+
+function IconShield() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  )
+}
+
+function IconEye() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+function IconPulse() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+  )
+}
+
 function SecurityPanel() {
   return (
     <div className="mp-panel">
@@ -531,7 +571,7 @@ function Features() {
 const HOW_PHASES = [
   {
     num: '01',
-    icon: '🔗',
+    Icon: IconGitHub,
     title: 'Connect your GitHub',
     body: 'Give us read access to your code in one click — that\'s it. No forms to fill out, no files to upload, no setup wizard. You stay in control the whole time.',
     callout: null,
@@ -540,7 +580,7 @@ const HOW_PHASES = [
   },
   {
     num: '02',
-    icon: '🔍',
+    Icon: IconScan,
     title: 'Our agent maps your app',
     body: 'We send an AI agent into your code to understand what you\'ve built. It figures out every piece of your app — the website visitors see, the logic running behind the scenes, the data your app stores — before touching anything.',
     callout: 'Think of it like hiring a senior developer to read through everything and write up a plan before starting any work.',
@@ -554,7 +594,7 @@ const HOW_PHASES = [
   },
   {
     num: '03',
-    icon: '☁️',
+    Icon: IconCloudBuild,
     title: 'We build your cloud setup',
     body: 'Based on what your app actually needs, we set up the right hosting, databases, and connections — all packaged up and ready to run. We then send a suggestion to your GitHub for you to look over and approve before anything changes.',
     callout: 'We send a "suggestion" — a tidy list of the changes we want to make — to your GitHub for you to review. You approve it, and we do the rest.',
@@ -568,7 +608,7 @@ const HOW_PHASES = [
   },
   {
     num: '04',
-    icon: '🔒',
+    Icon: IconShield,
     title: 'Security audit — included free',
     body: 'Before anything goes live, our agent scans your code for common mistakes that could expose your users or your business. We catch things developers often miss, and we fix them automatically where we can.',
     callout: null,
@@ -583,7 +623,7 @@ const HOW_PHASES = [
   },
   {
     num: '05',
-    icon: '🔬',
+    Icon: IconEye,
     title: 'Preview it before anyone else sees it',
     body: 'Before your app goes public, you get a private link — a "staging" copy — that looks and works exactly like the real thing. Test it, share it with your team, and make sure you\'re happy with everything.',
     callout: 'Nothing goes live until you give the green light.',
@@ -597,7 +637,7 @@ const HOW_PHASES = [
   },
   {
     num: '06',
-    icon: '🚀',
+    Icon: IconPulse,
     title: 'Live — and we keep watching',
     body: 'Your app is on the internet, your domain is connected, and we\'re watching it 24/7. If something breaks, we\'re on it — often before you even notice. Updates, fixes, and improvements happen automatically.',
     callout: null,
@@ -642,7 +682,7 @@ function HowItWorks() {
             </div>
 
             <div className="how-phase-right">
-              <div className="how-phase-icon">{phase.icon}</div>
+              <div className="how-phase-icon"><phase.Icon /></div>
               <div className="how-phase-header">
                 <h3 className="how-phase-title">{phase.title}</h3>
                 {phase.chips.map(c => (
