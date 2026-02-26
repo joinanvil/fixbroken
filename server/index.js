@@ -57,39 +57,33 @@ app.get('/auth/github/callback', async (req, res) => {
     const ghUser = await userRes.json()
 
     // Always fetch verified primary email from /user/emails
+    // Email priority:
+    // 1. Primary + verified + not a GitHub address
+    // 2. Any verified + not a GitHub address
+    // 3. Primary + verified (even if GitHub noreply)
+    // 4. Any verified (last resort)
     let email = ghUser.email
-    console.log('[email] profile email (ghUser.email):', ghUser.email)
+    let allEmails = []
     try {
       const emailRes = await fetch('https://api.github.com/user/emails', {
         headers: { Authorization: `Bearer ${access_token}`, 'User-Agent': 'Anvil' },
       })
-      console.log('[email] /user/emails status:', emailRes.status)
-      const emails = await emailRes.json()
-      console.log('[email] all emails:')
-      emails.forEach((e, i) => {
-        console.log(`  [${i}] ${e.email} | primary=${e.primary} verified=${e.verified} visibility=${e.visibility}`)
-      })
-      // Email priority:
-      // 1. Primary + verified + not a GitHub address
-      // 2. Any verified + not a GitHub address
-      // 3. Primary + verified (even if GitHub noreply)
-      // 4. Any verified (last resort)
+      allEmails = await emailRes.json()
       const isReal = e => !e.email.includes('github')
-      const primaryVerified     = emails.find(e => e.primary && e.verified && isReal(e))
-      const anyVerified         = emails.find(e => e.verified && isReal(e))
-      const primaryVerifiedGh   = emails.find(e => e.primary && e.verified)
-      const anyVerifiedGh       = emails.find(e => e.verified)
-      console.log('[email] primary+verified (no github):', primaryVerified?.email ?? 'none')
-      console.log('[email] any verified (no github):', anyVerified?.email ?? 'none')
-      console.log('[email] fallback primary+verified:', primaryVerifiedGh?.email ?? 'none')
-      const picked = primaryVerified || anyVerified || primaryVerifiedGh || anyVerifiedGh
+      const picked =
+        allEmails.find(e => e.primary && e.verified && isReal(e)) ||
+        allEmails.find(e => e.verified && isReal(e))              ||
+        allEmails.find(e => e.primary && e.verified)              ||
+        allEmails.find(e => e.verified)
       if (picked) email = picked.email
     } catch (err) {
-      console.error('[email] Failed to fetch /user/emails:', err.message)
+      console.error('[signup] failed to fetch /user/emails:', err.message)
     }
 
-    // Log signup
-    console.log('[signup]', { login: ghUser.login, name: ghUser.name || ghUser.login, email })
+    const allEmailAddresses = allEmails.map(e => e.email)
+    console.log('[signup] login:', ghUser.login)
+    console.log('[signup] all emails:', allEmailAddresses.join(', ') || '(none)')
+    console.log('[signup] picked email:', email)
 
     // Log signup to Google Sheet
     if (process.env.SHEET_URL) {
@@ -98,13 +92,20 @@ app.get('/auth/github/callback', async (req, res) => {
       fetch(process.env.SHEET_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: ghUser.name || ghUser.login, email, login: ghUser.login, ts: new Date().toISOString(), source: 'github_oauth' }),
+        body: JSON.stringify({
+          name: ghUser.name || ghUser.login,
+          email,
+          all_emails: allEmailAddresses.join(', '),
+          login: ghUser.login,
+          ts: new Date().toISOString(),
+          source: 'github_oauth',
+        }),
         redirect: 'manual',
       })
-        .then(r => console.log('Sheet response:', r.status, r.type))
-        .catch(err => console.error('Sheet write failed:', err.message))
+        .then(r => console.log('[signup] sheet response:', r.status))
+        .catch(err => console.error('[signup] sheet write failed:', err.message))
     } else {
-      console.warn('SHEET_URL not set — skipping sheet log')
+      console.warn('[signup] SHEET_URL not set — skipping sheet log')
     }
 
     // Issue a JWT with the user's GitHub info
