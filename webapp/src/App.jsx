@@ -1050,7 +1050,8 @@ function AuthCallbackPage() {
     const token = params.get('token')
     if (!token) { navigate('/signup?error=1'); return }
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]))
+      const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
+      const payload = JSON.parse(atob(b64))
       localStorage.setItem('anvil_token', token)
       localStorage.setItem('anvil_user', JSON.stringify({
         id: payload.sub,
